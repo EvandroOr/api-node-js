@@ -1,12 +1,11 @@
 const express = require('express'); 
 const router = express.Router(); 
 
-const UsuariosController = require('../controllers/usuarios'); 
+const infsJogoController = require('../controllers/infsJogo'); 
 
-router.get('/usuarios', UsuariosController.listarUsuarios); 
-router.post('/usuarios', UsuariosController.cadastrarUsuarios); 
-router.patch('/usuarios', UsuariosController.editarUsuarios); 
-router.delete('/usuarios', UsuariosController.apagarUsuarios); 
-
+router.get('/infsJogo', infsJogoController.listarInfsJogo); 
+router.post('/infsJogo', infsJogoController.cadastrarInfsJogo); 
+router.patch('/infsJogo', infsJogoController.editarInfsJogo); 
+router.delete('/infsJogo', infsJogoController.apagarInfsJogo); 
 
 module.exports = router;

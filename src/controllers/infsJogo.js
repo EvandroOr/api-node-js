@@ -3,10 +3,22 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarInfsJogo(request, response) {
         try {
+
+            const sql = `
+               SELECT
+                    inf_id, cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem 
+                FROM INF_JOGO;
+            `;
+
+            const [rows] = await db.query(sql);
+
+            const nRegistros = rows.length;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de informações do jogo', 
-                dados: null
+                nRegistros,
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({

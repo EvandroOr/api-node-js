@@ -30,10 +30,32 @@ module.exports = {
     }, 
     async cadastrarInfsJogo(request, response) {
         try {
+
+            const { inf_id, cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem } = request.body;
+            
+            // Instrução SQL
+            const sql = `
+                INSERT INTO INF_JOGO
+                        (cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem) 
+                    VALUES
+                        (?, ?, ?, ?, ?)
+                    `;
+
+                    const values = [inf_id, cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem];
+
+                    const [result] = await db.query(sql, values);
+
+                    const dados = {
+                        inf_id: result.insertId,
+                        inf_titulo,
+                        inf_descricao,
+                        inf_imagem
+                    };
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de informações do jogo', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({

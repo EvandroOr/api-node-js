@@ -47,6 +47,8 @@ module.exports = {
 
                     const dados = {
                         inf_id: result.insertId,
+                        cat_id,
+                        usu_id,
                         inf_titulo,
                         inf_descricao,
                         inf_imagem
@@ -67,10 +69,42 @@ module.exports = {
     }, 
     async editarInfsJogo(request, response) {
         try {
+            const { cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem } = request.body;
+
+            const { id } = request.params;
+
+            const sql = `
+                UPDATE INF_JOGO SET
+                    cat_id = ?, usu_id = ?, inf_titulo = ?, inf_descricao = ?, inf_imagem = ?
+                WHERE
+                    inf_id = ?;
+            `;
+
+            const values = [ cat_id, usu_id, inf_titulo, inf_descricao, inf_imagem, id ];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                })
+            }
+
+            const dados = {
+                id,
+                cat_id,
+                usu_id,
+                inf_titulo,
+                inf_descricao,
+                inf_imagem
+            };
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração na informação do jogo', 
-                dados: null
+                mensagem: `Usuário ${id} atualizado com sucesso!`, 
+                dados
             });
         } catch (error) {
             return response.status(500).json({

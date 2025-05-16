@@ -1,11 +1,8 @@
 const express = require('express'); 
 const router = express.Router(); 
 
-const infsJogoController = require('../controllers/infsJogo'); 
+const EvandroRoutes = require("./routesEvandro");
 
-router.get('/infsJogo', infsJogoController.listarInfsJogo); 
-router.post('/infsJogo', infsJogoController.cadastrarInfsJogo); 
-router.patch('/infsJogo/:id', infsJogoController.editarInfsJogo); 
-router.delete('/infsJogo', infsJogoController.apagarInfsJogo); 
+router.use("/", EvandroRoutes);
 
 module.exports = router;

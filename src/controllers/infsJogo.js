@@ -87,7 +87,7 @@ module.exports = {
             if(result.affectedRows === 0) {
                 return response.status(404).json({
                     sucesso: false,
-                    mensagem: `Usuário ${id} não encontrado!`,
+                    mensagem: `Informação ${id} não encontrada!`,
                     dados: null
                 })
             }
@@ -103,7 +103,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: `Usuário ${id} atualizado com sucesso!`, 
+                mensagem: `Informação ${id} atualizada com sucesso!`, 
                 dados
             });
         } catch (error) {
@@ -116,9 +116,25 @@ module.exports = {
     }, 
     async apagarInfsJogo(request, response) {
         try {
+            const { id } = request.params;
+
+            const sql = `DELETE FROM INF_JOGO WHERE inf_id = ?`;
+
+            const values = [id];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Informação ${inf_id} não encontrada!`,
+                    dados: null
+                });
+            }
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Exclusão de informação do jogo', 
+                mensagem: `Informação ${id} excluída com sucesso`, 
                 dados: null
             });
         } catch (error) {
